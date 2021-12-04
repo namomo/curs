@@ -5,7 +5,7 @@ import './App.css';
 function App() {
   // let posts = '강남 고기 맛집';
   let [title, editTitle] = useState(['남자 코트 추천', '강남 고기 맛집', '숙제검사']);
-  let [goodJob, editGoodJob] = useState(0);
+  let [goodJob, editGoodJob] = useState([0, 0, 0]);
   let [modal, editModal] = useState(false);
 
   function reEditTitle() {
@@ -17,6 +17,11 @@ function App() {
     let newData = [...title];
     newData.sort();
     editTitle(newData);
+  }
+  function editGoodJobList(idx) {
+    let nData = [...goodJob];
+    nData[idx]++;
+    editGoodJob(nData) ;
   }
 
   return (
@@ -31,7 +36,7 @@ function App() {
       <button onClick={ sortTitle }>SORT</button>
       <button onClick={ ()=>{ editModal(!modal)} }>Modal</button>
 
-      <div className="list">
+      {/* <div className="list">
         <h3> { title[0] } <span onClick={ () => { editGoodJob(goodJob+1) } }>👍</span> {goodJob} </h3>
         <p>2월 17일</p>
         <hr/>
@@ -47,9 +52,20 @@ function App() {
         <h3> { title[2] } </h3>
         <p>2월 17일</p>
         <hr/>
-      </div>
+      </div> */}
 
   
+      {
+        title.map(function(e, idx) {
+          return (
+            <div className="list">
+              <h3> { e } <span onClick={ () => { editGoodJobList(idx) } }>👍</span> {goodJob[idx]} </h3>
+              <p>2월 17일</p>
+              <hr/> 
+            </div>
+          )
+        })
+      }
 
       {
         modal === true
