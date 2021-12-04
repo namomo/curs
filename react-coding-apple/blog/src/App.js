@@ -3,9 +3,10 @@ import React, { useState } from 'react';
 import './App.css';
 
 function App() {
-  let posts = '강남 고기 맛집';
+  // let posts = '강남 고기 맛집';
   let [title, editTitle] = useState(['남자 코트 추천', '강남 고기 맛집', '숙제검사']);
   let [goodJob, editGoodJob] = useState(0);
+  let [modal, editModal] = useState(false);
 
   function reEditTitle() {
     let newData = [...title];
@@ -28,6 +29,7 @@ function App() {
       <button onClick={ () => editTitle(['여자코트추천', '강남 고기 맛집', '숙제검사']) }>EditTitle-1</button>
       <button onClick={ reEditTitle }>EditTitle-2</button>
       <button onClick={ sortTitle }>SORT</button>
+      <button onClick={ ()=>{ editModal(!modal)} }>Modal</button>
 
       <div className="list">
         <h3> { title[0] } <span onClick={ () => { editGoodJob(goodJob+1) } }>👍</span> {goodJob} </h3>
@@ -46,9 +48,28 @@ function App() {
         <p>2월 17일</p>
         <hr/>
       </div>
+
+  
+
+      {
+        modal === true
+        ? <Modal></Modal>
+        : null
+
+      }
       
     </div>
   );
+}
+
+function Modal() {
+  return (
+    <div className="modal">
+      <h2>제목</h2>
+      <p>날짜</p>
+      <p>상세내용</p>
+    </div>
+  )
 }
 
 export default App;
