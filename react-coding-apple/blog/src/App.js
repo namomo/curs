@@ -7,6 +7,18 @@ function App() {
   let [title, editTitle] = useState(['남자 코트 추천', '강남 고기 맛집', '숙제검사']);
   let [goodJob, editGoodJob] = useState([0, 0, 0]);
   let [modal, editModal] = useState(false);
+  let [selectTitle, editSelectTitle] = useState(0);
+  let [iValue, editIValue] = useState('');
+
+  function addTitle() {
+    // let newTitle = 'AAA';
+    // let d = document.querySelector('.publish input');
+    let newTitle = iValue;
+    let newData = [...title];
+    newData.push(newTitle);
+    newData.sort();
+    editTitle(newData);
+  }
 
   function reEditTitle() {
     let newData = [...title];
@@ -58,8 +70,8 @@ function App() {
       {
         title.map(function(e, idx) {
           return (
-            <div className="list">
-              <h3> { e } <span onClick={ () => { editGoodJobList(idx) } }>👍</span> {goodJob[idx]} </h3>
+            <div className="list" key={idx}>
+              <h3 onClick={ () => { editSelectTitle(idx) } }> { e } <span onClick={ () => { editGoodJobList(idx) } }>👍</span> {goodJob[idx]} </h3>
               <p>2월 17일</p>
               <hr/> 
             </div>
@@ -67,9 +79,17 @@ function App() {
         })
       }
 
+      <div className="publish">
+        <input onChange={ (e) => { editIValue(e.target.value) } } />
+        <button onClick={ () => { addTitle() }}>저장</button>
+      </div>
+
+      {/* {iValue}
+      <input onChange={ (e) => { editIValue(e.target.value) } } /> */}
+
       {
         modal === true
-        ? <Modal title={title}></Modal>
+        ? <Modal title={title} selectTitle={selectTitle}></Modal>
         : null
 
       }
@@ -81,7 +101,7 @@ function App() {
 function Modal(props) {
   return (
     <div className="modal">
-      <h2>제목 - {props.title}</h2>
+      <h2>제목 - {props.title[props.selectTitle]}</h2>
       <p>날짜</p>
       <p>상세내용</p>
     </div>
