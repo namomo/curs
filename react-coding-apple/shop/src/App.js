@@ -3,6 +3,9 @@ import { useState } from 'react';
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import './App.css';
 import Data from './data.js';
+import { Link, Route, Switch } from 'react-router-dom';
+
+import Detail from './Detail.js';
 
 function App() {
 
@@ -31,28 +34,57 @@ function App() {
         </Container>
       </Navbar>
 
-      {/* Jumbotron 대신 */}
-      <div className="background">
-        <h1>20% Season Off</h1>
-        <p>
-          Nullam quis risus eget urna mollis ornare vel eu leo. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
-        </p>
-        <p>
-          <button variant="primary">Lean more</button>
-        </p>
-      </div>
+      
 
+
+      {/* 라우팅 - exact 를 추가해 지정된 내용만 보여줌 */}
+      <Route exact path="/">
+        <div>메인 페이지</div>
+        {/* Jumbotron 대신 */}
+        <div className="background">
+          <h1>20% Season Off</h1>
+          <p>
+            Nullam quis risus eget urna mollis ornare vel eu leo. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum.
+          </p>
+          <p>
+            <button variant="primary">Lean more</button>
+          </p>
+        </div>
+      </Route>
+      
+
+      <Route path="/detail">
+
+        <Detail></Detail>
+        {/* <div>상세 페이지</div>
+        <div className="container">
+          <div className="row">
+            <div className="col-md-6">
+              <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="100%" />
+            </div>
+            <div className="col-md-6 mt-4">
+              <h4 className="pt-5">상품명</h4>
+              <p>상품설명</p>
+              <p>120000원</p>
+              <button className="btn btn-danger">주문하기</button> 
+            </div>
+          </div>
+        </div>  */}
+      </Route>
+
+
+      {/* 공통 */}
       <div className="container">
         <div className="row">
 
-          {
+          {/* {
             shoes.map((e, idx) => {
               return (
                 <Card imgIdx={idx} shoes={e} key={idx}></Card>
                 // <Product imgIdx={idx} title={e.title} content={e.content} price={e.price}></Product>
               )
             })
-          }
+          } */}
 
           {/* <Product title={shoes[0].title} content={shoes[0].content} price={shoes[0].price}></Product>
           <Product title={shoes[1].title} content={shoes[1].content} price={shoes[1].price}></Product>
