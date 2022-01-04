@@ -1,0 +1,39 @@
+.red {
+    color: red;
+}
+
+@mixin alertbox() {
+    background-color: #cccccc;
+    padding: 20px;
+    border-radius: 10px;;
+    max-width: 500px;
+    width: 80%;
+    margin: auto;
+}
+
+.my-alert {
+    background-color: #cccccc;
+    padding: 20px;
+    border-radius: 10px;;
+    max-width: 500px;
+    width: 80%;
+    margin: auto;
+
+    p {
+        margin-bottom: 0;
+    }
+}
+
+.my-alert2 {
+    @extend .my-alert;
+    color: red;
+    background: #f197f0;
+}
+
+.my-alert3 {
+    @include alertbox();
+    color: blue;
+    p {
+        margin-bottom: 0;
+    }
+}
