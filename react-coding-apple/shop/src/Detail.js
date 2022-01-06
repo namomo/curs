@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import './Detail.scss';
@@ -12,8 +12,18 @@ let CompH4 = styled.h4`
 `;
 
 function Detail (props) {
+
+  let [pAlert, editPAlert] = useState(true);
   let history = useHistory();
   let { id } = useParams();
+
+  useEffect( () => {
+    setTimeout(() => {
+      console.log('useEffect -> timeout');
+      editPAlert(false);
+    }, 2000);
+  });
+
 
   let item = props.shoes.find((e) => {
     // console.log(`shoes id[${e.id}] === parameter id[${id}]`);
@@ -27,15 +37,18 @@ function Detail (props) {
         <CompH4 hcolor={ 'red' }>상품에 관하여</CompH4>
       </CompBox>
 
-      <div className='my-alert'>
+      {
+        pAlert === true ? <ProductAlert></ProductAlert> : null
+      }
+      {/* <div className='my-alert'>
         <p>마감 임박</p>
-      </div>
-      <div className='my-alert2'>
+      </div> */}
+      {/* <div className='my-alert2'>
         <p>마감 임박 - 2</p>
       </div>
       <div className='my-alert3'>
         <p>마감 임박 - 3</p>
-      </div>
+      </div> */}
 
       <div className="row">
         <div className="col-md-6">
@@ -53,6 +66,14 @@ function Detail (props) {
       </div>
     </div> 
   )
+}
+
+function ProductAlert() {
+  return (
+    <div className='my-alert'>
+      <p>마감 임박</p>
+    </div>
+  );
 }
 
 export default Detail;
