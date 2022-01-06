@@ -16,12 +16,18 @@ function Detail (props) {
   let [pAlert, editPAlert] = useState(true);
   let history = useHistory();
   let { id } = useParams();
+  let [ userInput, editUserInput ] = useState('');
 
   useEffect( () => {
-    setTimeout(() => {
+    let tm = setTimeout(() => {
       console.log('useEffect -> timeout');
       editPAlert(false);
     }, 2000);
+
+    // component 가 unmount 될때 실행이 필요
+    return () => {
+      clearTimeout(tm);
+    }
   });
 
 
@@ -36,6 +42,8 @@ function Detail (props) {
       <CompBox>
         <CompH4 hcolor={ 'red' }>상품에 관하여</CompH4>
       </CompBox>
+
+      <input onChange={(e) => { editUserInput(e.target.value); console.log(`input -  `+userInput) }}/>
 
       {
         pAlert === true ? <ProductAlert></ProductAlert> : null
@@ -58,7 +66,14 @@ function Detail (props) {
           <h4 className="pt-5">상품명 : { item.title }</h4>
           <p className='red'> { item.content } </p>
           <p> { item.price } </p>
-          <button className="btn btn-danger">주문하기</button> 
+
+          <Info inventory={props.inventory}></Info>
+
+          <button className="btn btn-danger" onClick={ () => {
+            let cnt = [...props.inventory];
+            cnt[0] -= 1;
+            props.editInventory(cnt);
+          }}>주문하기</button> 
           <button className="btn btn-danger" onClick={ () => {
             history.goBack();      
           }}>뒤로가기</button> 
@@ -74,6 +89,15 @@ function ProductAlert() {
       <p>마감 임박</p>
     </div>
   );
+}
+
+
+function Info(props) {
+  return (
+    <div>
+      <p>재고 : {props.inventory[0]} </p>
+    </div>
+  )
 }
 
 export default Detail;

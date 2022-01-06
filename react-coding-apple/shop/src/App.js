@@ -4,12 +4,14 @@ import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import './App.css';
 import Data from './data.js';
 import { Link, Route, Switch } from 'react-router-dom';
+import axios from 'axios';
 
 import Detail from './Detail.js';
 
 function App() {
 
   let [shoes, editShoes] = useState(Data);
+  let [inventory, editInventory] = useState([10, 20, 40]);
 
   return (
     <div className="App">
@@ -41,7 +43,7 @@ function App() {
 
         <Route path="/detail/:id">
           <div>상세 페이지</div>
-          <Detail shoes={shoes}></Detail>
+          <Detail shoes={shoes} inventory={inventory} editInventory={editInventory}></Detail>
         </Route>
 
         <Route path="/">
@@ -56,7 +58,8 @@ function App() {
               <button variant="primary">Lean more</button>
             </p>
           </div>
-
+          
+          <div className='row'>
           {
             shoes.map((e, idx) => {
               return (
@@ -64,6 +67,20 @@ function App() {
               )
             })
           }
+          </div>
+
+          <button className="btn btn-primary" onClick={ () => {
+            axios.get('https://codingapple1.github.io/shop/data2.json')
+                 .then( (result) => {
+                   console.log(result.data);
+                  //  editShoes(result.data.concat(shoes));
+                   editShoes( [...shoes, ...result.data] );
+                 })
+                 .catch( () => {
+                   console.log('fail...');
+                 });
+          } }>더보기</button>
+
         </Route>
 
         <Route path="/:id">
@@ -78,9 +95,9 @@ function App() {
 
 
 function Card(props) {
-  let img = `https://codingapple1.github.io/shop/shoes${props.imgIdx+1}.jpg`;
+  let img = `https://codingapple1.github.io/shop/shoes${props.shoes.id+1}.jpg`;
   return (
-    <div className="col-md-4">
+    <div className="col-sm-4">
       <img src={ img } alt="shoes" width="100%" />
         <h4>{ props.shoes.title }</h4>
         <p>{ props.shoes.content } & { props.shoes.price }</p>
