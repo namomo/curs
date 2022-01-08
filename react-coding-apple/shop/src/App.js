@@ -7,6 +7,7 @@ import { Link, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 
 import Detail from './Detail.js';
+import Cart from './Cart.js';
 
 // context api
 export let inventoryContext = React.createContext();
@@ -53,6 +54,10 @@ function App() {
             <Detail shoes={shoes} inventory={inventory} editInventory={editInventory}></Detail>
           </inventoryContext.Provider>
           
+        </Route>
+
+        <Route path="/cart">
+          <Cart></Cart>
         </Route>
 
         <Route path="/">

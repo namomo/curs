@@ -3,6 +3,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import './Detail.scss';
 import { inventoryContext } from './App.js';
+import { Tabs, Tab, Sonnet } from 'react-bootstrap';
 
 let CompBox = styled.div`
   padding : 20px;
@@ -87,6 +88,26 @@ function Detail (props) {
           }}>뒤로가기</button> 
         </div>
       </div>
+
+
+      {/* tab */}
+      <Tabs defaultActiveKey="home" id="uncontrolled-tab-example" className="mb-3">
+        <Tab eventKey="home" title="Home">
+          <div>tab 1 - home</div>
+          {/* <Sonnet /> */}
+        </Tab>
+        <Tab eventKey="profile" title="Profile">
+          <div>tab 2 - profile</div>
+          {/* <Sonnet /> */}
+        </Tab>
+        <Tab eventKey="contact" title="Contact">
+          <div>tab 3 - contact</div>
+          {/* <Sonnet /> */}
+        </Tab>
+      </Tabs>
+
+
+
     </div> 
   )
 }
