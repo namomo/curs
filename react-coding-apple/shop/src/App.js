@@ -1,5 +1,5 @@
 // import logo from './logo.svg';
-import { useState } from 'react';
+import React, { lazy, useContext, useState } from 'react';
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import './App.css';
 import Data from './data.js';
@@ -8,10 +8,15 @@ import axios from 'axios';
 
 import Detail from './Detail.js';
 
+// context api
+export let inventoryContext = React.createContext();
+
 function App() {
 
   let [shoes, editShoes] = useState(Data);
-  let [inventory, editInventory] = useState([10, 20, 40]);
+  let [inventory, editInventory] = useState([10, 20, 40, 14, 11, 99]);
+
+  // const Detail = lazy(() => import('./Detail.js'));
 
   return (
     <div className="App">
@@ -43,7 +48,11 @@ function App() {
 
         <Route path="/detail/:id">
           <div>상세 페이지</div>
-          <Detail shoes={shoes} inventory={inventory} editInventory={editInventory}></Detail>
+
+          <inventoryContext.Provider value={inventory}>
+            <Detail shoes={shoes} inventory={inventory} editInventory={editInventory}></Detail>
+          </inventoryContext.Provider>
+          
         </Route>
 
         <Route path="/">
@@ -59,15 +68,24 @@ function App() {
             </p>
           </div>
           
-          <div className='row'>
-          {
-            shoes.map((e, idx) => {
-              return (
-                <Card imgIdx={idx} shoes={e} key={idx}></Card>
-              )
-            })
-          }
+          <div className='container'>
+
+            <inventoryContext.Provider value={inventory}>
+
+            <div className='row'>
+            {
+              shoes.map((e, idx) => {
+                return (
+                  <Card imgIdx={idx} shoes={e} key={idx}></Card>
+                )
+              })
+            }
+            </div>
+
+            </inventoryContext.Provider>
+
           </div>
+          
 
           <button className="btn btn-primary" onClick={ () => {
             axios.get('https://codingapple1.github.io/shop/data2.json')
@@ -95,12 +113,15 @@ function App() {
 
 
 function Card(props) {
+  let inventory = useContext(inventoryContext);
+
   let img = `https://codingapple1.github.io/shop/shoes${props.shoes.id+1}.jpg`;
   return (
     <div className="col-sm-4">
       <img src={ img } alt="shoes" width="100%" />
         <h4>{ props.shoes.title }</h4>
         <p>{ props.shoes.content } & { props.shoes.price }</p>
+        {inventory[props.shoes.id]}
     </div>
   )
 }

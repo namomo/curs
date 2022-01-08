@@ -1,7 +1,8 @@
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import styled from 'styled-components';
 import './Detail.scss';
+import { inventoryContext } from './App.js';
 
 let CompBox = styled.div`
   padding : 20px;
@@ -12,6 +13,8 @@ let CompH4 = styled.h4`
 `;
 
 function Detail (props) {
+
+  let detailInventoryContext = useContext(inventoryContext);
 
   let [pAlert, editPAlert] = useState(true);
   let history = useHistory();
@@ -68,6 +71,11 @@ function Detail (props) {
           <p> { item.price } </p>
 
           <Info inventory={props.inventory}></Info>
+
+          <div>
+          {detailInventoryContext[id]}
+          </div>
+          
 
           <button className="btn btn-danger" onClick={ () => {
             let cnt = [...props.inventory];
