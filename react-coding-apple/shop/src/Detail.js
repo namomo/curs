@@ -41,6 +41,8 @@ function Detail (props) {
     if (e.id == id) return true;
   });
 
+  let imgSrc = `https://codingapple1.github.io/shop/shoes${item.id+1}.jpg`;
+
   return (
     <div className="container">
 
@@ -65,7 +67,7 @@ function Detail (props) {
 
       <div className="row">
         <div className="col-md-6">
-          <img src="https://codingapple1.github.io/shop/shoes1.jpg" alt="shoes" width="100%" />
+          <img src={imgSrc} alt="shoes" width="100%" />
         </div>
         <div className="col-md-6 mt-4">
           <h4 className="pt-5">상품명 : { item.title }</h4>

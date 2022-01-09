@@ -5,6 +5,7 @@ import './App.css';
 import Data from './data.js';
 import { Link, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 import Detail from './Detail.js';
 import Cart from './Cart.js';
@@ -16,7 +17,7 @@ function App() {
 
   let [shoes, editShoes] = useState(Data);
   let [inventory, editInventory] = useState([10, 20, 40, 14, 11, 99]);
-
+  
   // const Detail = lazy(() => import('./Detail.js'));
 
   return (
@@ -119,10 +120,11 @@ function App() {
 
 function Card(props) {
   let inventory = useContext(inventoryContext);
+  let history = useHistory();
 
   let img = `https://codingapple1.github.io/shop/shoes${props.shoes.id+1}.jpg`;
   return (
-    <div className="col-sm-4">
+    <div className="col-sm-4" onClick={ () => { history.push(`/detail/${props.shoes.id}`) }}>
       <img src={ img } alt="shoes" width="100%" />
         <h4>{ props.shoes.title }</h4>
         <p>{ props.shoes.content } & { props.shoes.price }</p>
