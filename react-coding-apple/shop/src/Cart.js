@@ -9,16 +9,28 @@ function Cart(props) {
         <thead>
           <tr>
             <th>#</th>
-            <th>First Name</th>
-            <th>Last Name</th>
+            <th>상품명</th>
+            <th>수량</th>
           </tr>
         </thead>
         <tbody>
-          <tr>
+        {
+          props.state.map( (e, key) => {
+            return (
+              <tr id={ key }>
+                <td>{ e.id }</td>
+                <td>{ e.name }</td>
+                <td>{ e.quan }</td>
+              </tr>
+            )
+          }) 
+        }
+          {/* <tr>
             <td>1</td>
             <td> { props.state[0].name } </td>
             <td>Otto</td>
-          </tr>
+          </tr> */}
+
         </tbody>
       </Table>
     </div>

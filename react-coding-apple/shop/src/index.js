@@ -5,10 +5,14 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 
+// redux
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 let store = createStore( () => {
-  return [{id: 0, name: 'redux-shoes-1', quan: 2}];
+  return [
+    {id: 0, name: 'selected-shoes-1', quan: 2},
+    {id: 1, name: 'selected-shoes-2', quan: 3},
+  ];
 });
 
 ReactDOM.render(
