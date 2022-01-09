@@ -8,7 +8,7 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux';
 let store = createStore( () => {
-  return [{id: 0, name: 'redux-shoes', quan: 2}];
+  return [{id: 0, name: 'redux-shoes-1', quan: 2}];
 });
 
 ReactDOM.render(

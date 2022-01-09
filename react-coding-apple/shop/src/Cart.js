@@ -25,11 +25,15 @@ function Cart(props) {
   );
 }
 
-function getConnected(state) {
+export default connect((state)=>{
   return {
     state: state
   }
-}
-export default connect(getConnected)(Cart);
-
+})(Cart);
+// function getConnected(state) {
+//   return {
+//     state: state
+//   }
+// }
+// export default connect(getConnected)(Cart);
 // export default Cart;
