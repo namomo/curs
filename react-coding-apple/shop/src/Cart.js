@@ -1,8 +1,13 @@
 import React from "react";
 import { Table } from "react-bootstrap";
 import { connect } from 'react-redux';
+import { useHistory } from 'react-router-dom';
 
 function Cart(props) {
+  console.log(`[Cart] -> `, props);
+
+  let history = useHistory();
+
   return (
     <div>
       <Table striped bordered hover>
@@ -48,6 +53,7 @@ function Cart(props) {
         : null
       }
       
+      <button onClick={ () => { history.goBack() } }>쇼핑계속하기</button>
 
     </div>
   );

@@ -16,12 +16,24 @@ import { combineReducers, createStore } from 'redux';
 // });
 
 let _defaultStaet = [
-  {id: 0, name: 'selected-shoes-1', quan: 2},
-  {id: 1, name: 'selected-shoes-2', quan: 3}
+  {id: 10, name: 'selected-shoes-1', quan: 2},
+  {id: 11, name: 'selected-shoes-2', quan: 3}
 ];
 function reducer (state = _defaultStaet, act) {
-  console.log(`[reducer] --> [${act.type}]`);
-  if (act.type === 'plus') {
+  console.log(`[reducer] --> [${act.type}]`, act.payload);
+  if (act.type === 'add') {
+    let _new = [...state];
+    let item;
+    if (item = _new.find( (e) => { return e.id === act.payload.id })) {
+      item.quan++;
+    }
+    else {
+      _new.push({id: act.payload.id, name: act.payload.title, quan: 1});
+    }
+    
+    return _new;
+  }
+  else if (act.type === 'plus') {
     let _new = [...state];
     _new[0].quan++;
     return _new;

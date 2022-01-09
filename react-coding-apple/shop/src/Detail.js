@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import './Detail.scss';
 import { inventoryContext } from './App.js';
 import { Tabs, Tab, Sonnet } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 let CompBox = styled.div`
   padding : 20px;
@@ -79,9 +80,11 @@ function Detail (props) {
           
 
           <button className="btn btn-danger" onClick={ () => {
-            let cnt = [...props.inventory];
-            cnt[0] -= 1;
-            props.editInventory(cnt);
+            // let cnt = [...props.inventory];
+            // cnt[0] -= 1;
+            // props.editInventory(cnt);
+            props.dispatch({ type: 'add', payload: item });
+            history.push('/cart');
           }}>주문하기</button> 
           <button className="btn btn-danger" onClick={ () => {
             history.goBack();      
@@ -129,4 +132,9 @@ function Info(props) {
   )
 }
 
-export default Detail;
+export default connect((state)=>{
+  return {
+    state: state.reducer
+  }
+})(Detail);
+// export default Detail;
