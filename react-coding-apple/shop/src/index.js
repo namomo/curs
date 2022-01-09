@@ -7,13 +7,45 @@ import { BrowserRouter } from 'react-router-dom';
 
 // redux
 import { Provider } from 'react-redux';
-import { createStore } from 'redux';
-let store = createStore( () => {
-  return [
-    {id: 0, name: 'selected-shoes-1', quan: 2},
-    {id: 1, name: 'selected-shoes-2', quan: 3},
-  ];
-});
+import { combineReducers, createStore } from 'redux';
+// let store = createStore( () => {
+//   return [
+//     {id: 0, name: 'selected-shoes-1', quan: 2},
+//     {id: 1, name: 'selected-shoes-2', quan: 3},
+//   ];
+// });
+
+let _defaultStaet = [
+  {id: 0, name: 'selected-shoes-1', quan: 2},
+  {id: 1, name: 'selected-shoes-2', quan: 3}
+];
+function reducer (state = _defaultStaet, act) {
+  console.log(`[reducer] --> [${act.type}]`);
+  if (act.type === 'plus') {
+    let _new = [...state];
+    _new[0].quan++;
+    return _new;
+  }
+  else if (act.type === 'minus') {
+    let _new = [...state];
+    if (_new[0].quan > 0) _new[0].quan--;
+    return _new;
+  }
+  else {
+    return state;
+  }
+}
+
+function reducer2 (state = true, act) {
+  console.log(`[reducer2] --> [${act.type}]`);
+  if (act.type === 'close') {
+    return false;
+  }
+  return state;
+}
+
+// 복합 reducer 연결
+let store = createStore( combineReducers( {reducer, reducer2} ) );
 
 ReactDOM.render(
   <React.StrictMode>
