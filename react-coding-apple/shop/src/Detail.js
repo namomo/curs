@@ -21,7 +21,8 @@ function Detail (props) {
   let [pAlert, editPAlert] = useState(true);
   let history = useHistory();
   let { id } = useParams();
-  let [ userInput, editUserInput ] = useState('');
+  let [userInput, editUserInput] = useState('');
+  let [quan, setQuan] = useState(1);
 
   useEffect( () => {
     let tm = setTimeout(() => {
@@ -79,13 +80,19 @@ function Detail (props) {
           <div>
           {detailInventoryContext[id]}
           </div>
+
+          <div>
+            { quan } 
+            <button onClick={ () => { setQuan(quan+1) } }>+</button>
+            <button onClick={ () => { quan > 1 ? setQuan(quan-1) : setQuan(quan) } }>-</button>
+          </div>
           
 
           <button className="btn btn-danger" onClick={ () => {
             // let cnt = [...props.inventory];
             // cnt[0] -= 1;
             // props.editInventory(cnt);
-            props.dispatch({ type: 'add', payload: item });
+            props.dispatch({ type: 'add', payload: item, quan: quan });
             history.push('/cart');
           }}>주문하기</button> 
           <button className="btn btn-danger" onClick={ () => {

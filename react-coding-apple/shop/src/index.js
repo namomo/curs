@@ -21,28 +21,28 @@ let _defaultStaet = [
   // {id: 11, name: 'selected-shoes-2', quan: 3}
 ];
 function reducer (state = _defaultStaet, act) {
-  console.log(`[reducer] --> [${act.type}]`, act.payload);
+  // console.log(`[reducer] --> [${act.type}]`, act.payload);
 
   if (act.type === 'add') {
     let _new = [...state];
     let item;
     if (item = _new.find( (e) => { return e.id === act.payload.id })) {
-      item.quan++;
+      item.quan += act.quan;
     }
     else {
-      _new.push({id: act.payload.id, name: act.payload.title, quan: 1});
+      _new.push({id: act.payload.id, name: act.payload.title, quan: act.quan});
     }
     
     return _new;
   }
   else if (act.type === 'plus') {
     let _new = [...state];
-    _new[0].quan++;
+    _new[act.data].quan++;
     return _new;
   }
   else if (act.type === 'minus') {
     let _new = [...state];
-    if (_new[0].quan > 0) _new[0].quan--;
+    if (_new[act.data].quan > 0) _new[0].quan--;
     return _new;
   }
   else {
@@ -51,7 +51,7 @@ function reducer (state = _defaultStaet, act) {
 }
 
 function reducer2 (state = true, act) {
-  console.log(`[reducer2] --> [${act.type}]`);
+  // console.log(`[reducer2] --> [${act.type}]`);
   if (act.type === 'close') {
     return false;
   }

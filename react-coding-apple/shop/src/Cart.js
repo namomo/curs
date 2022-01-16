@@ -1,10 +1,16 @@
 import React from "react";
 import { Table } from "react-bootstrap";
-import { connect } from 'react-redux';
+import { connect, useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 
 function Cart(props) {
-  console.log(`[Cart] -> `, props);
+  // console.log(`[Cart] -> `, props);
+
+  // redux 에 등록된 state 를 모두 가져옴
+  let state = useSelector((state) => state );
+  console.log('[Cart] => ', state.reducer);
+
+  let dispatch = useDispatch();
 
   let history = useHistory();
 
@@ -21,15 +27,15 @@ function Cart(props) {
         </thead>
         <tbody>
         {
-          props.state.map( (e, key) => {
+          state.reducer.map( (e, key) => {
             return (
               <tr key={ key }>
                 <td>{ e.id }</td>
                 <td>{ e.name }</td>
                 <td>{ e.quan }</td>
                 <td>
-                  <button onClick={ () => { props.dispatch({ type: 'plus' }) } }>+</button>
-                  <button onClick={ () => { props.dispatch({ type: 'minus' }) } }>-</button>
+                  <button onClick={ () => { dispatch({ type: 'plus', data: e.id }) } }>+</button>
+                  <button onClick={ () => { dispatch({ type: 'minus', data: e.id }) } }>-</button>
                 </td>
               </tr>
             )
@@ -45,10 +51,10 @@ function Cart(props) {
       </Table>
 
       {
-        props.alert === true
+        state.reducer2.alert === true
         ? <div className='my-alert2'>
             <p>구매시 20% 할인</p>
-            <button onClick={ () => { props.dispatch({ type: 'close' }) } }>닫기</button>
+            <button onClick={ () => { dispatch({ type: 'close' }) } }>닫기</button>
           </div>
         : null
       }
@@ -59,16 +65,16 @@ function Cart(props) {
   );
 }
 
-export default connect((state)=>{
-  return {
-    state: state.reducer,
-    alert: state.reducer2
-  }
-})(Cart);
+// export default connect((state)=>{
+//   return {
+//     state: state.reducer,
+//     alert: state.reducer2
+//   }
+// })(Cart);
 // function getConnected(state) {
 //   return {
 //     state: state
 //   }
 // }
 // export default connect(getConnected)(Cart);
-// export default Cart;
+export default Cart;
