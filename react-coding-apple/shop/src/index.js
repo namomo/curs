@@ -15,12 +15,14 @@ import { combineReducers, createStore } from 'redux';
 //   ];
 // });
 
+// reducer
 let _defaultStaet = [
-  {id: 10, name: 'selected-shoes-1', quan: 2},
-  {id: 11, name: 'selected-shoes-2', quan: 3}
+  // {id: 10, name: 'selected-shoes-1', quan: 2},
+  // {id: 11, name: 'selected-shoes-2', quan: 3}
 ];
 function reducer (state = _defaultStaet, act) {
   console.log(`[reducer] --> [${act.type}]`, act.payload);
+
   if (act.type === 'add') {
     let _new = [...state];
     let item;
