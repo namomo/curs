@@ -9,6 +9,7 @@ import { useHistory } from 'react-router-dom';
 
 import Detail from './Detail.js';
 import Cart from './Cart.js';
+import Tempo from './tempo.js';
 
 // context api
 export let inventoryContext = React.createContext();
@@ -52,6 +53,10 @@ function App() {
 
         <Route path="/cart">
           <Cart></Cart>
+        </Route>
+
+        <Route path="/tempo">
+          <Tempo></Tempo>
         </Route>
 
         <Route path="/">
