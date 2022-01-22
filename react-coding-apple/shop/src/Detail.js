@@ -36,6 +36,21 @@ function Detail (props) {
     }
   });
 
+  useEffect(() => {
+    let itemList = localStorage.getItem('watched');
+    if (itemList) {
+      itemList = JSON.parse(itemList);
+      if (!itemList.includes(id)) {
+        itemList.push(id);
+      }
+    } 
+    else {
+      itemList = [id];
+    }
+
+    localStorage.setItem('watched', JSON.stringify(itemList));
+  }, []);
+
 
   let item = props.shoes.find((e) => {
     // console.log(`shoes id[${e.id}] === parameter id[${id}]`);
@@ -117,9 +132,6 @@ function Detail (props) {
           {/* <Sonnet /> */}
         </Tab>
       </Tabs>
-
-
-
     </div> 
   )
 }

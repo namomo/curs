@@ -1,5 +1,5 @@
 // import logo from './logo.svg';
-import React, { lazy, useContext, useState } from 'react';
+import React, { lazy, useContext, useState, Suspense } from 'react';
 import { Navbar, Container, Nav, NavDropdown } from 'react-bootstrap';
 import './App.css';
 import Data from './data.js';
@@ -7,9 +7,12 @@ import { Link, Route, Switch } from 'react-router-dom';
 import axios from 'axios';
 import { useHistory } from 'react-router-dom';
 
-import Detail from './Detail.js';
 import Cart from './Cart.js';
 import Tempo from './tempo.js';
+import Watched from './watched.js';
+
+// import Detail from './Detail.js';
+let Detail = lazy( () => import('./Detail') );
 
 // context api
 export let inventoryContext = React.createContext();
@@ -45,9 +48,11 @@ function App() {
         <Route path="/detail/:id">
           <div>상세 페이지</div>
 
-          <inventoryContext.Provider value={inventory}>
-            <Detail shoes={shoes} inventory={inventory} editInventory={editInventory}></Detail>
-          </inventoryContext.Provider>
+          <Suspense fallback={ <div>로딩중...</div> }>
+            <inventoryContext.Provider value={inventory}>
+              <Detail shoes={shoes} inventory={inventory} editInventory={editInventory}></Detail>
+            </inventoryContext.Provider>
+          </Suspense>
           
         </Route>
 
@@ -110,6 +115,9 @@ function App() {
         </Route>
         
       </Switch>
+
+
+      <Watched></Watched>
 
     </div>
   );
