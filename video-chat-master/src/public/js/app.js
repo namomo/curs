@@ -46,7 +46,7 @@ async function getMedia(deviceId){
             // video: deviceId ? { deviceId } : true
             video: false
         });
-        console.log(myStream);
+        // console.log(myStream);
         myFace.srcObject = myStream;
         /*if(!deviceId) {
             getCameras();
@@ -61,7 +61,7 @@ async function getMedia(deviceId){
 
 function setMute(mute) {
     const audioTracks = myStream.getAudioTracks();
-    console.log(audioTracks);
+    // console.log(audioTracks);
     if(mute) {
         muteBtn.innerText = "UnMute";
         muted = true;
@@ -78,7 +78,7 @@ function handleMuteClick() {
 }
 function handleMuteCameraClick() {
     const cameraTracks = myStream.getVideoTracks();
-    console.log(cameraTracks);
+    // console.log(cameraTracks);
     if(cameraOff) {
         cameraBtn.innerText = "Turn Camera Off";
         cameraOff = false;
@@ -140,12 +140,14 @@ welcomeForm.addEventListener("submit", handleWelcomeSubmit);
 // 2-1 Room 에 새로 들어온 사용자로 인해 이벤트 발생
 // 2-3 offer 를 새로 접속한 사용자에게 전달
 socket.on("welcome", async(newbieID) => {
+    console.log(`2 makePeer me[${socket.id}] target[${newbieID}]`);
     // 뉴비를 위해 새로운 커넥션을 만들고
     const offer = await makeConnection(newbieID);
-    console.log("someone joined");
+    // console.log("someone joined");
     // 뉴비에게 내 정보와 offer를 전달한다.
+    console.log(`2 send offer me[${socket.id}] -> target[${newbieID}]`);
     socket.emit("offer", offer, room, newbieID, socket.id);
-    console.log("send the offer");
+    // console.log("send the offer");
 });
 socket.on("leave", (leaveId) => {
     const video = document.getElementById(leaveId);
@@ -155,28 +157,33 @@ socket.on("leave", (leaveId) => {
 // 3-1 offer 를 받으면
 // 3-3 answer 를 offer 를 전달한 사용자에게 다시 전달
 socket.on("offer", async(offer, offersId) => {
-    console.log("receive the offer");
-    console.log(offer);
+    console.log(`3 recv offer me[${socket.id}] src[${offersId}]`);
+    // console.log("receive the offer");
+    // console.log(offer);
     // 뉴비는 현재 방안에 있던 모든사람의 offer를 받아 새로운 커넥션을 만들고, 답장을 만든다.
     const answer = await makeConnection(offersId, offer);
     // 답장을 현재 있는 받은 커넥션들에게 각각 보내준다.
+    console.log(`3 send answer me[${socket.id}] -> target[${offersId}]`);
     socket.emit("answer", answer, offersId, socket.id);
-    console.log("send the answer");
+    // console.log("send the answer");
 });
 
 // 4-1 answer 를 받으면 peer 에 등록
 socket.on("answer", async(answer, newbieID) => {
-    console.log("receive the answer", newbieID);
+    console.log(`4 recv answer me[${socket.id}] src[${newbieID}]`);
+    // console.log("receive the answer", newbieID);
+    // console.log(answer);
     // 방에 있던 사람들은 뉴비를 위해 생성한 커섹션에 answer를 추가한다.
     peerConnections[newbieID].setRemoteDescription(answer);
 });
 
 // 5-1 ice 등록
 socket.on("ice", (ice, othersId) => {
-    console.log("receive candidate");
+    console.log(`5 recv ice me[${socket.id}] src[${othersId}]`);
+    // console.log("receive candidate");
     /** 다른 사람에게서 받은 ice candidate를 각 커넥션에 넣는다. */
     peerConnections[othersId].addIceCandidate(ice);
-});
+})
 
 
 // RTC Code
@@ -221,11 +228,13 @@ async function makeConnection(othersId, _offer) {
     if(!offer) {
         offer = await myPeerConnection.createOffer();
         myPeerConnection.setLocalDescription(offer);
+        console.log('peerConnection offer -> ', offer)
     }
     else {
         myPeerConnection.setRemoteDescription(offer);
         answer = await myPeerConnection.createAnswer();
         myPeerConnection.setLocalDescription(answer);
+        console.log('peerConnection answer -> ', answer)
     }
 
     return answer || offer;
@@ -236,10 +245,11 @@ async function makeConnection(othersId, _offer) {
  * @param {RTCPeerConnectionIceEvent} data
  */
 function handleIce(data, othersId) {
+    console.log(`6 ice target[${othersId}]`);
     // ice breack가 생기면? 이를 해당 사람들에게 전달한다.
-    console.log("got ice candidate");
+    // console.log("got ice candidate");
     socket.emit("ice", data.candidate, room, othersId, socket.id);
-    console.log("send ice candidate");
+    // console.log("send ice candidate");
 }
 
 /**
@@ -247,7 +257,8 @@ function handleIce(data, othersId) {
  * @param {MediaStreamEvent} data
  */
 function handleAddStream(data, othersId) {
-    console.log("got an stream from my peer");
+    console.log(`7 addStream target[${othersId}]`);
+    // console.log("got an stream from my peer");
     // stream을 받아오면, 비디오를 새로 생성하고 넣어준다.
     const video = document.createElement("video");
     document.getElementById("othersStream").appendChild(video);
